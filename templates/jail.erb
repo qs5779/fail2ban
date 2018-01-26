@@ -1,0 +1,47 @@
+###########################################
+### file managed by puppet, do not edit ###
+###########################################
+[<%= scope['::fail2ban::jail::name'] %>]
+enabled  = <%= scope['::fail2ban::jail::enabled'] %>
+<% if scope['::fail2ban::jail::port'] != []-%>
+port = <%= scope['::fail2ban::jail::port'].join(',') %>
+<% end -%>
+<% if scope['::fail2ban::jail::logpath'] != []-%>
+logpath = <%= scope['::fail2ban::jail::logpath'].join("\n\t") %>
+<% end -%>
+<% if scope['::fail2ban::jail::banaction'] -%>
+banaction  = <%= scope['::fail2ban::jail::banaction'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::banaction_allports'] -%>
+banaction_allports  = <%= scope['::fail2ban::jail::banaction_allports'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::action'] != []-%>
+action = <%= scope['::fail2ban::jail::action'].join("\n\t") %>
+<% end -%>
+<% if scope['::fail2ban::jail::ignoreip'] != []-%>
+ignoreip = <%= scope['::fail2ban::jail::ignoreip'].join(',') %>
+<% end -%>
+<% if scope['::fail2ban::jail::ignorecommand'] -%>
+ignorecommand  = <%= scope['::fail2ban::jail::ignorecommand'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::bantime'] -%>
+bantime  = <%= scope['::fail2ban::jail::bantime'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::findtime'] -%>
+findtime  = <%= scope['::fail2ban::jail::findtime'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::maxretry'] -%>
+maxretry  = <%= scope['::fail2ban::jail::maxretry'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::backend'] -%>
+backend  = <%= scope['::fail2ban::jail::backend'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::usedns'] -%>
+usedns = <%= scope['::fail2ban::jail::usedns'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::filter'] -%>
+filter = <%= scope['::fail2ban::jail::filter'] %>
+<% end -%>
+<% if scope['::fail2ban::jail::protocol'] != []-%>
+protocol = <%= scope['::fail2ban::jail::protocol'].join(',') %>
+<% end -%>

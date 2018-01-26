@@ -1,0 +1,39 @@
+###########################################
+### file managed by puppet, do not edit ###
+###########################################
+
+# The DEFAULT allows a global definition of the options. They can be overridden
+# in each jail afterwards.
+
+[DEFAULT]
+
+<% if scope['::fail2ban::banaction'] -%>
+banaction  = <%= scope['::fail2ban::banaction'] %>
+<% end -%>
+<% if scope['::fail2ban::banaction_allports'] -%>
+banaction_allports  = <%= scope['::fail2ban::banaction_allports'] %>
+<% end -%>
+<% if scope['::fail2ban::backend'] -%>
+backend  = <%= scope['::fail2ban::backend'] %>
+<% end -%>
+<% if scope['::fail2ban::action'] -%>
+action  = <%= scope['::fail2ban::action'] %>
+<% end -%>
+<% if scope['::fail2ban::action'] -%>
+action  = <%= scope['::fail2ban::action'] %>
+<% end -%>
+<% if scope['::fail2ban::email'] -%>
+destemail  = <%= scope['::fail2ban::email'] %>
+<% end -%>
+<% if scope['::fail2ban::sender'] -%>
+sender  = <%= scope['::fail2ban::sender'] %>
+<% end -%>
+<% if scope['::fail2ban::bantime'] -%>
+bantime  = <%= scope['::fail2ban::bantime'] %>
+<% end -%>
+<% if scope['::fail2ban::maxretry'] -%>
+maxretry  = <%= scope['::fail2ban::maxretry'] %>
+<% end -%>
+<% if scope['::fail2ban::whitelist'] != []-%>
+ignoreip = <%= scope['::fail2ban::whitelist'].join(',') %>
+<% end -%>

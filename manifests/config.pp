@@ -11,7 +11,9 @@ class fail2ban::config {
   }
 
   if $fail2ban::jails {
-    create_resources('fail2ban::jail', $fail2ban::jails)
+
+    $defaults { ensure => 'present' }
+    create_resources('fail2ban::jail', $fail2ban::jails, $defaults)
   }
 
   $purge_packaged_defaults = [

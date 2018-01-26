@@ -1,23 +1,23 @@
 # Setup a fail2ban jail.
 #
 define fail2ban::jail (
-  Enum['present', 'absent', 'purged'] $ensure = 'present',
-  Boolean $enabled                            = true,
-  Optional[Array[String]] $port               = undef,
-  Optional[Array[String]] $logpath            = undef,
+  Enum['present', 'absent', 'purged'] $ensure,
+  Optional[Boolean] $enabled                  = true,
+  Optional[Array[String]] $port               = [],
+  Optional[Array[String]] $logpath            = [],
   Optional[String] $banaction                 = undef,
   Optional[String] $banaction_allports        = undef,
-  Optional[Array[String]] $action             = undef,
+  Optional[Array[String]] $action             = [],
+  Optional[Array[String]] $ignoreip           = [],
   Optional[String] $ignorecommand             = undef,
   Optional[String] $bantime                   = undef,
   Optional[String] $findtime                  = undef,
   Optional[Integer] $maxretry                 = undef,
   Optional[String] $backend                   = undef,
-  Optional[String] $usedns                    = undef,
-  Optional[Array[String]] $ignoreip           = undef,
-  Optional[Integer] $order                    = $undef,
+  Optional[Enum['yes', 'no', 'warn']] $usedns = undef,
   Optional[String] $filter                    = undef,
   Optional[Array[String]] $protocol           = undef,
+  Optional[Integer] $order                    = undef,
 ) {
 
   if $order { # we intentionally will not use 0 for order, as we use 00 for our overrides

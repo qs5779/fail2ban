@@ -13,18 +13,6 @@ class fail2ban::params {
     default => '/etc/fail2ban',
   }
 
-  #$config_dir_filter_path = $::osfamily ? {
-  #  default => '/etc/fail2ban/filter.d',
-  #}
-  #
-  #$config_file_path = $::osfamily ? {
-  #  default => '/etc/fail2ban/jail.conf',
-  #}
-  #
-  #$f2b_config_file_path = $::osfamily ? {
-  #  default => '/etc/fail2ban/fail2ban.local', # user configs should always be *.local to override dist defaults
-  #}
-  #
   $config_file_owner = $::osfamily ? {
     default => 'root',
   }
@@ -37,14 +25,6 @@ class fail2ban::params {
   $config_file_mode = $::osfamily ? {
     default => '0640',
   }
-  #
-  #$config_file_notify = $::osfamily ? {
-  #  default => 'Service[fail2ban]',
-  #}
-  #
-  #$config_file_require = $::osfamily ? {
-  #  default => 'Package[fail2ban]',
-  #}
 
   $service_name = $::osfamily ? {
     default => 'fail2ban',

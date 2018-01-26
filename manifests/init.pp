@@ -1,11 +1,10 @@
 # == Class: fail2ban
 #
 class fail2ban (
-  Optional[Enum['absent', 'present', 'purged']] $package_ensure = 'present',
+  Optional[Enum['absent', 'present', 'purged', 'latest']] $package_ensure = 'present',
   Optional[String] $package_name                                = $::fail2ban::params::package_name,
   Optional[Array[String]] $package_list                         = $::fail2ban::params::package_list,
   Optional[String] $config_dir_path                             = $::fail2ban::params::config_dir_path,
-  Optional[String] $config_file_path                            = $::fail2ban::params::config_file_path,
   Optional[String] $config_file_owner                           = $::fail2ban::params::config_file_owner,
   Optional[String] $config_file_group                           = $::fail2ban::params::config_file_group,
   Optional[String] $config_file_mode                            = $::fail2ban::params::config_file_mode,
@@ -22,13 +21,12 @@ class fail2ban (
   Optional[Array[String]] $whitelist                            = ['127.0.0.1/8', '::1'],
   Optional[Hash] $jails                                         = { sshd => { ensure => present } },
 ) inherits ::fail2ban::params {
-  validate_re($package_ensure, '^(absent|latest|present|purged)$')
+
   validate_string($package_name)
   if $package_list { validate_array($package_list) }
 
   validate_absolute_path($config_dir_path)
 
-  validate_re($service_ensure, '^(running|stopped)$')
   validate_string($service_name)
   validate_bool($service_enable)
 
@@ -49,7 +47,7 @@ class fail2ban (
     $_service_enable    = $service_enable
   }
 
-  $jails_directory = "${$config_file_path}/jails.d"
+  $jails_directory = "${config_dir_path}/jails.d"
 
   File {
     owner => $config_file_owner,
@@ -57,9 +55,9 @@ class fail2ban (
     mode  => $config_file_mode,
   }
 
-  anchor { 'fail2ban::begin': } ->
-  class { '::fail2ban::install': } ->
-  class { '::fail2ban::config': } ~>
-  class { '::fail2ban::service': } ->
-  anchor { 'fail2ban::end': }
+  anchor { 'fail2ban::begin': }
+    -> class { '::fail2ban::install': }
+    -> class { '::fail2ban::config': }
+    ~> class { '::fail2ban::service': }
+    -> anchor { 'fail2ban::end': }
 }

@@ -3,6 +3,7 @@
 define fail2ban::jail (
   Enum['present', 'absent', 'purged'] $ensure,
   Optional[Boolean] $enabled                  = true,
+  Optional[String] $jailname                  = $title,
   Optional[Array[String]] $port               = [],
   Optional[Array[String]] $logpath            = [],
   Optional[String] $banaction                 = undef,
@@ -16,21 +17,21 @@ define fail2ban::jail (
   Optional[String] $backend                   = undef,
   Optional[Enum['yes', 'no', 'warn']] $usedns = undef,
   Optional[String] $filter                    = undef,
-  Optional[Array[String]] $protocol           = undef,
+  Optional[Array[String]] $protocol           = [],
   Optional[Integer] $order                    = undef,
 ) {
 
   if $order { # we intentionally will not use 0 for order, as we use 00 for our overrides
-    $jail_path_name = sprintf('%s/%02d-%s.conf', $fail2ban::$config_dir_path, $order, $name);
+    $jail_path_name = sprintf('%s/%02d-%s.conf', $fail2ban::jails_directory, $order, $jailname)
   }
   else {
-    $jail_path_name = sprintf('%s/%s.conf', $fail2ban::$config_dir_path, $name);
+    $jail_path_name = sprintf('%s/%s.conf', $fail2ban::jails_directory, $jailname)
   }
 
   if $ensure == 'present' {
     file { $jail_path_name:
-      ensure => 'file',
-      mode    => 0640,
+      ensure  => 'file',
+      mode    => '0640',
       content => template('fail2ban/jail.erb');
     }
   }

@@ -2,11 +2,21 @@
 #
 class fail2ban::config {
 
+  file { $fail2ban::jails_directory:
+    ensure  => 'directory',
+    mode    => '0755',
+    purge   => $fail2ban::purge_unmanaged_jails,
+    force   => $fail2ban::purge_unmanaged_jails,
+    recurse => $fail2ban::purge_unmanaged_jails,
+    notify  => Service[fail2ban],
+  }
+
   $defaults_file_path = "${fail2ban::jails_directory}/00-defaults-puppet.conf"
 
   file { $defaults_file_path:
     ensure  => 'file',
     content => template('fail2ban/jail-overrides.erb'),
+    require => File[$fail2ban::jails_directory],
     notify  => Service[fail2ban],
   }
 
@@ -15,16 +25,4 @@ class fail2ban::config {
     create_resources('fail2ban::jail', $fail2ban::jails, $defaults)
   }
 
-  $purge_packaged_defaults = [
-    '00-firewalld.conf',    # RedHat|CentOS|Scientific
-    '00-systemd.conf',      # RedHat|CentOS|Scientific
-    'defaults-debian.conf', #debian, ubuntu
-  ]
-
-  $purge_packaged_defaults.each | $fn | {
-    file { "${fail2ban::jails_directory}/${fn}":
-      ensure => 'absent',
-      notify => Service[fail2ban],
-    }
-  }
 }

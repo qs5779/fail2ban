@@ -11,6 +11,7 @@ class fail2ban (
   Optional[Enum['running', 'stopped']] $service_ensure          = 'running',
   Optional[String] $service_name                                = $::fail2ban::params::service_name,
   Optional[Boolean] $service_enable                             = true,
+  Optional[Boolean] $purge_unmanaged_jails                      = true,
   Optional[String] $banaction                                   = undef,
   Optional[String] $banaction_allports                          = undef,
   Optional[String] $action                                      = undef,
@@ -47,7 +48,7 @@ class fail2ban (
     $_service_enable    = $service_enable
   }
 
-  $jails_directory = "${config_dir_path}/jails.d"
+  $jails_directory = "${config_dir_path}/jail.d"
 
   File {
     owner => $config_file_owner,

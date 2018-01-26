@@ -31,8 +31,9 @@ define fail2ban::jail (
   if $ensure == 'present' {
     file { $jail_path_name:
       ensure  => 'file',
-      mode    => '0640',
-      content => template('fail2ban/jail.erb');
+      content => template('fail2ban/jail.erb'),
+      require => File[$fail2ban::jails_directory],
+      notify  => Service[fail2ban],
     }
   }
   else {

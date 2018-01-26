@@ -37,3 +37,4 @@ maxretry  = <%= scope['::fail2ban::maxretry'] %>
 <% if scope['::fail2ban::whitelist'] != []-%>
 ignoreip = <%= scope['::fail2ban::whitelist'].join(',') %>
 <% end -%>
+

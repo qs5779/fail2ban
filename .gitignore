@@ -20,4 +20,5 @@
 /tmp/
 /vendor/
 /convert_report.txt
+*.keep
 

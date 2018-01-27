@@ -48,7 +48,8 @@ class fail2ban (
     $_service_enable    = $service_enable
   }
 
-  $jails_directory = "${config_dir_path}/jail.d"
+  $jail_directory = "${config_dir_path}/jail.d"
+  $filer_directory = "${config_dir_path}/jail.d"
 
   File {
     owner => $config_file_owner,

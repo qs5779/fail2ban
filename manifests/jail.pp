@@ -22,17 +22,17 @@ define fail2ban::jail (
 ) {
 
   if $order { # we intentionally will not use 0 for order, as we use 00 for our overrides
-    $jail_path_name = sprintf('%s/%02d-%s.conf', $fail2ban::jails_directory, $order, $jailname)
+    $jail_path_name = sprintf('%s/%02d-%s.conf', $fail2ban::jail_directory, $order, $jailname)
   }
   else {
-    $jail_path_name = sprintf('%s/%s.conf', $fail2ban::jails_directory, $jailname)
+    $jail_path_name = sprintf('%s/%s.conf', $fail2ban::jail_directory, $jailname)
   }
 
   if $ensure == 'present' {
     file { $jail_path_name:
       ensure  => 'file',
       content => template('fail2ban/jail.erb'),
-      require => File[$fail2ban::jails_directory],
+      require => File[$fail2ban::jail_directory],
       notify  => Service[fail2ban],
     }
   }

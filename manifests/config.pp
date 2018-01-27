@@ -2,7 +2,7 @@
 #
 class fail2ban::config {
 
-  file { $fail2ban::jails_directory:
+  file { $fail2ban::jail_directory:
     ensure  => 'directory',
     mode    => '0755',
     purge   => $fail2ban::purge_unmanaged_jails,
@@ -11,12 +11,12 @@ class fail2ban::config {
     notify  => Service[fail2ban],
   }
 
-  $defaults_file_path = "${fail2ban::jails_directory}/00-defaults-puppet.conf"
+  $defaults_file_path = "${fail2ban::jail_directory}/00-defaults-puppet.conf"
 
   file { $defaults_file_path:
     ensure  => 'file',
     content => template('fail2ban/jail-overrides.erb'),
-    require => File[$fail2ban::jails_directory],
+    require => File[$fail2ban::jail_directory],
     notify  => Service[fail2ban],
   }
 

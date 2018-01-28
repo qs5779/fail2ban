@@ -1,26 +1,31 @@
 # == Class: fail2ban
 #
 class fail2ban (
-  Optional[Enum['absent', 'present', 'purged', 'latest']] $package_ensure = 'present',
-  Optional[String] $package_name                                = $::fail2ban::params::package_name,
-  Optional[Array[String]] $package_list                         = $::fail2ban::params::package_list,
-  Optional[String] $config_dir_path                             = $::fail2ban::params::config_dir_path,
-  Optional[String] $config_file_owner                           = $::fail2ban::params::config_file_owner,
-  Optional[String] $config_file_group                           = $::fail2ban::params::config_file_group,
-  Optional[String] $config_file_mode                            = $::fail2ban::params::config_file_mode,
-  Optional[Enum['running', 'stopped']] $service_ensure          = 'running',
-  Optional[String] $service_name                                = $::fail2ban::params::service_name,
-  Optional[Boolean] $service_enable                             = true,
-  Optional[Boolean] $purge_unmanaged_jails                      = true,
-  Optional[String] $banaction                                   = undef,
-  Optional[String] $banaction_allports                          = undef,
-  Optional[String] $action                                      = undef,
-  Optional[String] $bantime                                     = undef,
-  Optional[String] $backend                                     = undef,
-  Optional[String] $email                                       = "fail2ban@${::domain}",
-  Optional[Integer] $maxretry                                   = undef,
-  Optional[Array[String]] $whitelist                            = ['127.0.0.1/8', '::1'],
-  Optional[Hash] $jails                                         = { sshd => { ensure => present } },
+  Enum[
+    'absent',
+    'present',
+    'purged',
+    'latest' ] $package_ensure                = 'present',
+  String $package_name                        = $::fail2ban::params::package_name,
+  String $config_dir_path                     = $::fail2ban::params::config_dir_path,
+  String $config_file_owner                   = $::fail2ban::params::config_file_owner,
+  String $config_file_group                   = $::fail2ban::params::config_file_group,
+  String $config_file_mode                    = $::fail2ban::params::config_file_mode,
+  Enum['running', 'stopped'] $service_ensure  = 'running',
+  String $service_name                        = $::fail2ban::params::service_name,
+  Boolean $service_enable                     = true,
+  Boolean $purge_unmanaged_jails              = true,
+  Hash $jails                                 = { sshd => { ensure => present } },
+  Hash $filters                               = {},
+  Optional[Array[String]] $package_list       = $::fail2ban::params::package_list,
+  Optional[String] $banaction                 = undef,
+  Optional[String] $banaction_allports        = undef,
+  Optional[String] $action                    = undef,
+  Optional[String] $bantime                   = undef,
+  Optional[String] $backend                   = undef,
+  Optional[String] $email                     = "fail2ban@${::domain}",
+  Optional[Integer] $maxretry                 = undef,
+  Optional[Array[String]] $whitelist          = ['127.0.0.1/8', '::1'],
 ) inherits ::fail2ban::params {
 
   validate_string($package_name)
@@ -49,7 +54,7 @@ class fail2ban (
   }
 
   $jail_directory = "${config_dir_path}/jail.d"
-  $filer_directory = "${config_dir_path}/jail.d"
+  $filter_directory = "${config_dir_path}/filter.d"
 
   File {
     owner => $config_file_owner,

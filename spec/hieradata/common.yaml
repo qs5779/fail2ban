@@ -7,3 +7,11 @@ fail2ban::jails:
     ensure: 'present'
   wtfo:
     ensure: 'present'
+fail2ban::filters:
+  'apache-access-wtfo':
+    ensure: 'present'
+    ibefore:
+      - 'apache-common.conf'
+    failregex:
+      - '^<HOST> - - \[.*\] "[A-Z]* .*(?i)fckeditor.*" 404'
+      - '^<HOST> - - \[.*\] "[A-Z]* .*(?i)phpmyadmin.*" 404'

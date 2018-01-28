@@ -11,6 +11,10 @@ class fail2ban::config {
     notify  => Service[fail2ban],
   }
 
+  file { $fail2ban::filter_directory:
+    ensure => 'directory',
+  }
+
   $defaults_file_path = "${fail2ban::jail_directory}/00-defaults-puppet.conf"
 
   file { $defaults_file_path:
@@ -20,9 +24,14 @@ class fail2ban::config {
     notify  => Service[fail2ban],
   }
 
-  if $fail2ban::jails {
-    $defaults = { ensure => 'present' }
-    create_resources('fail2ban::jail', $fail2ban::jails, $defaults)
+  if !$fail2ban::jails.empty {
+    $jaildefaults = { ensure => 'present' }
+    create_resources('fail2ban::jail', $fail2ban::jails, $jaildefaults)
+  }
+
+  if !$fail2ban::filters.empty {
+    $filterdefaults = { ensure => 'present' }
+    create_resources('fail2ban::filter', $fail2ban::filters, $filterdefaults)
   }
 
 }

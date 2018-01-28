@@ -3,7 +3,7 @@
 define fail2ban::filter (
   Enum['present', 'absent', 'purged'] $ensure,
   Optional[String] $filtername         = $title,
-  Optional[Array[String]] $before      = [''],
+  Optional[Array[String]] $ibefore     = [''],
   Optional[Array[String]] $failregex   = [''],
   Optional[Array[String]] $ignoreregex = [''],
 ) {

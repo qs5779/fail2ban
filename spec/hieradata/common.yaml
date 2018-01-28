@@ -1,0 +1,9 @@
+---
+
+fail2ban::banaction: 'firewallcmd-allports'
+fail2ban::banaction_allports:  'firewallcmd-allports'
+fail2ban::jails:
+  sshd:
+    ensure: 'present'
+  wtfo:
+    ensure: 'present'

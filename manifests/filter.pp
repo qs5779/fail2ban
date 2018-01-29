@@ -2,10 +2,12 @@
 #
 define fail2ban::filter (
   Enum['present', 'absent', 'purged'] $ensure,
-  Optional[String] $filtername         = $title,
-  Optional[Array[String]] $ibefore     = [''],
-  Optional[Array[String]] $failregex   = [''],
-  Optional[Array[String]] $ignoreregex = [''],
+  String $filtername         = $title,
+  String $daemon             = '',
+  String $journalmatch       = '',
+  Array[String] $ibefore     = [''],
+  Array[String] $failregex   = [''],
+  Array[String] $ignoreregex = [''],
 ) {
 
   $filter_path_name = sprintf('%s/%s.local', $fail2ban::filter_directory, $filtername)

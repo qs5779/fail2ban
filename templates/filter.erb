@@ -8,8 +8,17 @@
 before = <%= scope['ibefore'].join("\n         ") %>
 
 [Definition]
+<% if scope['daemon'].empty? %>
+
+_daemon = <%= scope['daemon'] %>
+<% end %>
 
 failregex = <%= scope['failregex'].join("\n            ") %>
 
 ignoreregex = <%= scope['ignoreregex'].join("\n              ") %>
 
+<% if ! scope['journalmatch'].empty? %>
+[Init]
+
+journalmatch = <%= scope['journalmatch'] %>
+<% end %>

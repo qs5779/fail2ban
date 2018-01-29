@@ -11,7 +11,7 @@ define fail2ban::jail (
   Optional[Array[String]] $action             = [],
   Optional[Array[String]] $ignoreip           = [],
   Optional[String] $ignorecommand             = undef,
-  Optional[String] $bantime                   = undef,
+  Optional[Variant[String,Integer]] $bantime  = undef,
   Optional[String] $findtime                  = undef,
   Optional[Integer] $maxretry                 = undef,
   Optional[String] $backend                   = undef,

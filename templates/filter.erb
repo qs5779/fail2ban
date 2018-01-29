@@ -3,19 +3,25 @@
 #######################################################################
 #
 
+<% if ! scope['ibefore'].empty? %>
 [INCLUDES]
 
 before = <%= scope['ibefore'].join("\n         ") %>
+<% end %>
 
 [Definition]
-<% if scope['daemon'].empty? %>
+<% if ! scope['daemon'].empty? %>
 
 _daemon = <%= scope['daemon'] %>
 <% end %>
 
+<% if ! scope['failregex'].empty? %>
 failregex = <%= scope['failregex'].join("\n            ") %>
+<% end %>
 
+<% if ! scope['ignoreregex'].empty? %>
 ignoreregex = <%= scope['ignoreregex'].join("\n              ") %>
+<% end %>
 
 <% if ! scope['journalmatch'].empty? %>
 [Init]

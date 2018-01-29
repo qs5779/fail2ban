@@ -5,9 +5,9 @@ define fail2ban::filter (
   String $filtername         = $title,
   String $daemon             = '',
   String $journalmatch       = '',
-  Array[String] $ibefore     = [''],
-  Array[String] $failregex   = [''],
-  Array[String] $ignoreregex = [''],
+  Array[String] $ibefore     = [],
+  Array[String] $failregex   = [],
+  Array[String] $ignoreregex = [],
 ) {
 
   $filter_path_name = sprintf('%s/%s.local', $fail2ban::filter_directory, $filtername)

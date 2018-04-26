@@ -19,9 +19,6 @@ backend  = <%= scope['::fail2ban::backend'] %>
 <% if scope['::fail2ban::action'] -%>
 action  = <%= scope['::fail2ban::action'] %>
 <% end -%>
-<% if scope['::fail2ban::action'] -%>
-action  = <%= scope['::fail2ban::action'] %>
-<% end -%>
 <% if scope['::fail2ban::email'] -%>
 destemail  = <%= scope['::fail2ban::email'] %>
 <% end -%>
@@ -37,4 +34,3 @@ maxretry  = <%= scope['::fail2ban::maxretry'] %>
 <% if scope['::fail2ban::whitelist'] != []-%>
 ignoreip = <%= scope['::fail2ban::whitelist'].join(',') %>
 <% end -%>
-

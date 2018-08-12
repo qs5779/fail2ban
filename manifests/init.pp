@@ -53,6 +53,7 @@ class fail2ban (
     $_service_enable    = $service_enable
   }
 
+  $fail2ban_d_directory = "${config_dir_path}/fail2ban.d"
   $jail_directory = "${config_dir_path}/jail.d"
   $filter_directory = "${config_dir_path}/filter.d"
 

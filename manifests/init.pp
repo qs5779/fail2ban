@@ -62,6 +62,13 @@ class fail2ban (
     mode  => $config_file_mode,
   }
 
+  if 'recidive' in $jails {
+    $dbpurgeage = '1w'
+  }
+  else {
+    $dbpurgeage = '1d'
+  }
+
   anchor { 'fail2ban::begin': }
     -> class { '::fail2ban::install': }
     -> class { '::fail2ban::config': }

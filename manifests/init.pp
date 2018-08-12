@@ -64,10 +64,10 @@ class fail2ban (
   }
 
   if 'recidive' in $jails {
-    $dbpurgeage = '1w'
+    $dbpurgeage = '604800'
   }
   else {
-    $dbpurgeage = '1d'
+    $dbpurgeage = '86400'
   }
 
   anchor { 'fail2ban::begin': }

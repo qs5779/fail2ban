@@ -15,6 +15,15 @@ class fail2ban::config {
     ensure => 'directory',
   }
 
+  ini_setting { 'fail2ban-local-dbpurgeage':
+    ensure  => present,
+    path    => "${fail2ban::fail2ban_d_directory}/puppet-managed.conf",
+    section => 'Definition',
+    setting => 'dbpurgeage',
+    value   => $fail2ban::dbpurgeage,
+    notify  => Service[fail2ban],
+  }
+
   $defaults_file_path = "${fail2ban::jail_directory}/00-defaults-puppet.conf"
 
   file { $defaults_file_path:

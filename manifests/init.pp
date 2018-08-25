@@ -21,7 +21,7 @@ class fail2ban (
   Optional[String] $banaction                 = undef,
   Optional[String] $banaction_allports        = undef,
   Optional[String] $action                    = undef,
-  Optional[String] $bantime                   = undef,
+  Optional[String] $bantime                   = '7200',
   Optional[String] $findtime                  = undef,
   Optional[String] $backend                   = undef,
   Optional[String] $email                     = "fail2ban@${::domain}",
@@ -54,7 +54,6 @@ class fail2ban (
     $_service_enable    = $service_enable
   }
 
-  $fail2ban_d_directory = "${config_dir_path}/fail2ban.d"
   $jail_directory = "${config_dir_path}/jail.d"
   $filter_directory = "${config_dir_path}/filter.d"
 
@@ -62,13 +61,6 @@ class fail2ban (
     owner => $config_file_owner,
     group => $config_file_group,
     mode  => $config_file_mode,
-  }
-
-  if 'recidive' in $jails {
-    $dbpurgeage = '604800'
-  }
-  else {
-    $dbpurgeage = '86400'
   }
 
   anchor { 'fail2ban::begin': }

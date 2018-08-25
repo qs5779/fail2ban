@@ -21,7 +21,7 @@ class fail2ban (
   Optional[String] $banaction                 = undef,
   Optional[String] $banaction_allports        = undef,
   Optional[String] $action                    = undef,
-  Optional[String] $bantime                   = undef,
+  Optional[String] $bantime                   = '7200',
   Optional[String] $findtime                  = undef,
   Optional[String] $backend                   = undef,
   Optional[String] $email                     = "fail2ban@${::domain}",

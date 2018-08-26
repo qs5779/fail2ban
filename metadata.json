@@ -1,6 +1,6 @@
 {
   "name": "que-fail2ban",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Quien Sabe",
   "summary": "Install and manage fail2ban service on Linux systems",
   "license": "Apache-2.0",

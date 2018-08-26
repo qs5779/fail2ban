@@ -31,9 +31,6 @@ findtime  = <%= scope['::fail2ban::findtime'] %>
 <% if scope['::fail2ban::bantime'] -%>
 bantime  = <%= scope['::fail2ban::bantime'] %>
 <% end -%>
-<% if scope['::fail2ban::findtime'] -%>
-findtime  = <%= scope['::fail2ban::findtime'] %>
-<% end -%>
 <% if scope['::fail2ban::maxretry'] -%>
 maxretry  = <%= scope['::fail2ban::maxretry'] %>
 <% end -%>

@@ -24,7 +24,8 @@ class fail2ban (
   Optional[String] $bantime                   = '7200',
   Optional[String] $findtime                  = undef,
   Optional[String] $backend                   = undef,
-  Optional[String] $email                     = "fail2ban@${::domain}",
+  Optional[String] $email                     = "root@localhost",
+  Optional[String] $sender                     = "fail2ban@${::domain}",
   Optional[Integer] $maxretry                 = undef,
   Optional[Array[String]] $whitelist          = ['127.0.0.1/8', '::1'],
 ) inherits ::fail2ban::params {

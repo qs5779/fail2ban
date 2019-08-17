@@ -31,10 +31,7 @@ class fail2ban::params {
   }
 
   case $::osfamily {
-    'Debian': {
-    }
-    'RedHat': {
-    }
+    /^(Debian|RedHat|Archlinux)$/: {}
     default: {
       fail("${::operatingsystem} not supported.")
     }

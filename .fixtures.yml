@@ -1,10 +1,7 @@
 fixtures:
   forge_modules:
-    stdlib:
-      repo: 'puppetlabs/stdlib'
-      ref: '4.13.0'
-      repo: 'puppetlabs/inifile'
-      ref: '2.3.0'
+    stdlib: 'puppetlabs/stdlib'
+    inifile: 'puppetlabs/inifile'
   symlinks:
     fail2ban: "#{source_dir}"
 

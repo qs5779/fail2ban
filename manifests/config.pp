@@ -2,45 +2,46 @@
 #
 class fail2ban::config {
 
-  file { $fail2ban::jail_directory:
+  file { $::fail2ban::jail_directory:
     ensure  => 'directory',
     mode    => '0755',
-    purge   => $fail2ban::purge_unmanaged_jails,
-    force   => $fail2ban::purge_unmanaged_jails,
-    recurse => $fail2ban::purge_unmanaged_jails,
-    notify  => Service[fail2ban],
+    purge   => $::fail2ban::purge_unmanaged_jails,
+    force   => $::fail2ban::purge_unmanaged_jails,
+    recurse => $::fail2ban::purge_unmanaged_jails,
+    notify  => $::fail2ban::service_notify,
   }
 
-  file { $fail2ban::filter_directory:
+  file { $::fail2ban::filter_directory:
     ensure => 'directory',
   }
 
-  ini_setting { 'fail2ban-local-dbpurgeage':
-    ensure  => present,
-    path    => "${fail2ban::fail2ban_d_directory}/puppet-managed.conf",
-    section => 'Definition',
-    setting => 'dbpurgeage',
-    value   => $fail2ban::dbpurgeage,
-    notify  => Service[fail2ban],
-  }
+  # implement when / if this is needed in the future
+  # ini_setting { 'fail2ban-local-dbpurgeage':
+  #   ensure  => present,
+  #   path    => "${fail2ban::conf_d_directory}/puppet-managed.conf",
+  #   section => 'Definition',
+  #   setting => 'dbpurgeage',
+  #   value   => $::fail2ban::dbpurgeage,
+  #   notify  => $::fail2ban::service_notify,
+  # }
 
   $defaults_file_path = "${fail2ban::jail_directory}/00-defaults-puppet.conf"
 
   file { $defaults_file_path:
-    ensure  => 'file',
+    ensure  => $::fail2ban::file_ensure,
     content => template('fail2ban/jail-overrides.erb'),
-    require => File[$fail2ban::jail_directory],
-    notify  => Service[fail2ban],
+    require => File[$::fail2ban::jail_directory],
+    notify  => $::fail2ban::service_notify,
   }
 
-  if !$fail2ban::jails.empty {
-    $jaildefaults = { ensure => 'present' }
-    create_resources('fail2ban::jail', $fail2ban::jails, $jaildefaults)
+  if !$::fail2ban::jails.empty {
+    $jaildefaults = { ensure => $::fail2ban::file_ensure }
+    create_resources('fail2ban::jail', $::fail2ban::jails, $jaildefaults)
   }
 
-  if !$fail2ban::filters.empty {
-    $filterdefaults = { ensure => 'present' }
-    create_resources('fail2ban::filter', $fail2ban::filters, $filterdefaults)
+  if !$::fail2ban::filters.empty {
+    $filterdefaults = { ensure => $::fail2ban::file_ensure }
+    create_resources('fail2ban::filter', $::fail2ban::filters, $filterdefaults)
   }
 
 }

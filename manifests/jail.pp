@@ -25,15 +25,15 @@ define fail2ban::jail (
     $jail_path_name = sprintf('%s/%02d-%s.conf', $fail2ban::jail_directory, $order, $jailname)
   }
   else {
-    $jail_path_name = sprintf('%s/%s.conf', $fail2ban::jail_directory, $jailname)
+    $jail_path_name = sprintf('%s/%s.conf', $::fail2ban::jail_directory, $jailname)
   }
 
   if $ensure == 'present' {
     file { $jail_path_name:
       ensure  => 'file',
       content => template('fail2ban/jail.erb'),
-      require => File[$fail2ban::jail_directory],
-      notify  => Service[fail2ban],
+      require => File[$::fail2ban::jail_directory],
+      notify  => $::fail2ban::service_notify,
     }
   }
   else {

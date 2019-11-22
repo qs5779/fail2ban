@@ -7,7 +7,7 @@ class fail2ban (
     'purged',
     'latest' ] $package_ensure                = 'present',
   String $package_name                        = $::fail2ban::params::package_name,
-  String $config_dir_path                     = $::fail2ban::params::config_dir_path,
+  Stdlib::Absolutepath $config_dir_path       = $::fail2ban::params::config_dir_path,
   String $config_file_owner                   = $::fail2ban::params::config_file_owner,
   String $config_file_group                   = $::fail2ban::params::config_file_group,
   String $config_file_mode                    = $::fail2ban::params::config_file_mode,
@@ -24,37 +24,31 @@ class fail2ban (
   Optional[String] $bantime                   = '7200',
   Optional[String] $findtime                  = undef,
   Optional[String] $backend                   = undef,
-  Optional[String] $email                     = "root@localhost",
+  Optional[String] $email                     = 'root@localhost',
   Optional[String] $sender                     = "fail2ban@${::domain}",
   Optional[Integer] $maxretry                 = undef,
   Optional[Array[String]] $whitelist          = ['127.0.0.1/8', '::1'],
 ) inherits ::fail2ban::params {
 
-  validate_string($package_name)
-  if $package_list { validate_array($package_list) }
-
-  validate_absolute_path($config_dir_path)
-
-  validate_string($service_name)
-  validate_bool($service_enable)
-
-  if $package_ensure == 'absent' {
-  #  $config_dir_ensure  = 'directory'
-  #  $config_file_ensure = 'present'
-    $_service_ensure    = 'stopped'
-    $_service_enable    = false
-  } elsif $package_ensure == 'purged' {
-    #$config_dir_ensure  = 'absent'
-    #$config_file_ensure = 'absent'
-    $_service_ensure    = 'stopped'
-    $_service_enable    = false
-  } else {
-    #$config_dir_ensure  = 'directory'
-    #$config_file_ensure = 'present'
-    $_service_ensure    = $service_ensure
-    $_service_enable    = $service_enable
+  case $package_ensure {
+    'absent', 'purged': {
+      $_service_ensure    = 'stopped'
+      $_service_enable    = false
+      $file_ensure        = 'absent'
+    }
+    default: {
+      $_service_ensure    = $service_ensure
+      $_service_enable    = $service_enable
+      $file_ensure        = 'file'
+    }
   }
 
+  $service_notify = $service_name ? {
+    true    => Service[$service_name],
+    default => undef
+  }
+
+  $conf_d_directory = "${config_dir_path}/fail2ban.d"
   $jail_directory = "${config_dir_path}/jail.d"
   $filter_directory = "${config_dir_path}/filter.d"
 

@@ -2,7 +2,7 @@
 
 Facter.add(:fail2ban_version) do
   setcode do
-    fail2ban_version = %x[fail2ban-client --version 2>/dev/null | grep ^Fail2Ban | head -1 | sed 's/Fail2Ban v//']
+    fail2ban_version = %x(fail2ban-client --version 2>/dev/null | grep ^Fail2Ban | head -1 | sed 's/Fail2Ban v//')
     if fail2ban_version == ''
       fail2ban_version = '0.0.0'
     end

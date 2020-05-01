@@ -28,6 +28,7 @@ class fail2ban (
   Optional[String] $sender                     = "fail2ban@${::domain}",
   Optional[Integer] $maxretry                 = undef,
   Optional[Array[String]] $whitelist          = ['127.0.0.1/8', '::1'],
+  Optional[Integer] $dbpurgeage               = undef,
 ) inherits ::fail2ban::params {
 
   case $package_ensure {

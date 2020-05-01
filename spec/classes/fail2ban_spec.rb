@@ -28,6 +28,7 @@ describe 'fail2ban' do
       let(:params) do
         {
           'service_name' => '',
+          'dbpurgeage' => 648_000,
         }
       end
 
@@ -45,6 +46,7 @@ describe 'fail2ban' do
       it { is_expected.to contain_package('fail2ban') }
       it { is_expected.not_to contain_service('fail2ban') }
       it { is_expected.to contain_fail2ban__jail('sshd') }
+      it { is_expected.to contain_ini_setting('fail2ban-local-dbpurgeage') }
     end
   end
 

@@ -10,7 +10,7 @@ class fail2ban::params {
       $_wheel = 'sudo'
     }
     default: {
-      fail("${facts['os']['family']} not supported.")
+      # fail("${facts['os']['family']} not supported.")
     }
   }
 

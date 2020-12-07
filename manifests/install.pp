@@ -1,13 +1,24 @@
 # == Class: fail2ban::install
 #
-class fail2ban::install {
-  if $::fail2ban::package_name {
-    package { $::fail2ban::package_name:
-      ensure => $::fail2ban::package_ensure,
-    }
+class fail2ban::install (
+  String                  $ensure,
+  Array[String]           $fail2ban_packages,
+  Optional[Array[String]] $repo_packages,
+  Optional[Array[String]] $extra_packages,
+) {
+
+  $_fail2ban_packages = $extra_packages ? {
+    undef   => $fail2ban_packages,
+    default => $fail2ban_packages + $extra_packages
   }
 
-  if ($::fail2ban::package_list) and (!empty($::fail2ban::package_list)) {
-    ensure_packages($::fail2ban::package_list, { 'ensure' => $::fail2ban::package_ensure })
+  if ($ensure != 'absent') and ($repo_packages){
+    ensure_packages($repo_packages, { ensure => $ensure, before =>  Package[$_fail2ban_packages]})
+    # $_require = Package[$repo_packages]
   }
+  # else {
+  #   $_require = undef
+  # }
+
+  ensure_packages($_fail2ban_packages, { ensure => $ensure })
 }

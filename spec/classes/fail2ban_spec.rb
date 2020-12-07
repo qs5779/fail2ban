@@ -10,17 +10,19 @@ describe 'fail2ban' do
       it { is_expected.to compile }
       it { is_expected.to contain_class('Fail2ban::Config') }
       it { is_expected.to contain_class('Fail2ban::Install') }
-      it { is_expected.to contain_class('Fail2ban::Params') }
       it { is_expected.to contain_class('Fail2ban::Service') }
       it { is_expected.to contain_file('/etc/fail2ban/jail.d/00-defaults-puppet.conf').with_ensure('file') }
       it { is_expected.to contain_file('/etc/fail2ban/jail.d/sshd.conf').with_ensure('file') }
       it { is_expected.to contain_file('/etc/fail2ban/jail.d').with_ensure('directory') }
       it { is_expected.to contain_file('/etc/fail2ban/filter.d').with_ensure('directory') }
-      it { is_expected.to contain_anchor('fail2ban::begin') }
-      it { is_expected.to contain_anchor('fail2ban::end') }
-      it { is_expected.to contain_package('fail2ban') }
-      it { is_expected.to contain_service('fail2ban') }
       it { is_expected.to contain_fail2ban__jail('sshd') }
+      it { is_expected.to contain_package('fail2ban') }
+
+      case os_facts[:osfamily]
+      when 'RedHat'
+        it { is_expected.to contain_package('fail2ban-systemd') }
+        it { is_expected.to contain_package('epel-release') }
+      end
     end
   end
 
@@ -37,14 +39,11 @@ describe 'fail2ban' do
       it { is_expected.to compile }
       it { is_expected.to contain_class('Fail2ban::Config') }
       it { is_expected.to contain_class('Fail2ban::Install') }
-      it { is_expected.to contain_class('Fail2ban::Params') }
       it { is_expected.to contain_class('Fail2ban::Service') }
       it { is_expected.to contain_file('/etc/fail2ban/jail.d/00-defaults-puppet.conf').with_ensure('file') }
       it { is_expected.to contain_file('/etc/fail2ban/jail.d/sshd.conf').with_ensure('file') }
       it { is_expected.to contain_file('/etc/fail2ban/jail.d').with_ensure('directory') }
       it { is_expected.to contain_file('/etc/fail2ban/filter.d').with_ensure('directory') }
-      it { is_expected.to contain_anchor('fail2ban::begin') }
-      it { is_expected.to contain_anchor('fail2ban::end') }
       it { is_expected.to contain_package('fail2ban') }
       it { is_expected.not_to contain_service('fail2ban') }
       it { is_expected.to contain_fail2ban__jail('sshd') }
@@ -53,11 +52,10 @@ describe 'fail2ban' do
   end
 
   on_supported_os.each do |os, os_facts|
-    context "on #{os} with defaults + filter and package_list" do
+    context "on #{os} with defaults + filter" do
       let(:facts) { os_facts }
       let(:params) do
         {
-          'package_list' => ['wadka'],
           'filters' => {
             'apache-access-wtfo' => {
               'ensure' => 'present',
@@ -73,7 +71,6 @@ describe 'fail2ban' do
 
       it { is_expected.to compile }
       it { is_expected.to contain_file('/etc/fail2ban/filter.d/apache-access-wtfo.local') }
-      it { is_expected.to contain_package('wadka') }
       it { is_expected.to contain_fail2ban__filter('apache-access-wtfo') }
     end
   end

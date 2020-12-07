@@ -1,6 +1,6 @@
 {
   "name": "wtfoguru-fail2ban",
-  "version": "1.0.3",
+  "version": "1.9.0",
   "author": "Quien Sabe",
   "summary": "Install and manage fail2ban service on Linux systems",
   "license": "Apache-2.0",
@@ -54,7 +54,8 @@
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "16.04",
-        "18.04"
+        "18.04",
+        "20.04"
       ]
     },
     {
@@ -64,7 +65,7 @@
       "operatingsystem": "Archlinux"
     },
     {
-      "operatingsystem": "Manjarolinux"
+      "operatingsystem": "Manjaro"
     }
   ],
   "requirements": [

@@ -2,7 +2,7 @@
 ### file managed by puppet, do not edit ###
 ###########################################
 [<%= scope['jailname'] %>]
-enabled  = <%= scope['enabled'] %>
+enabled = <%= scope['enabled'] %>
 <% if scope['port'] != []-%>
 port = <%= scope['port'].join(',') %>
 <% end -%>
@@ -10,10 +10,10 @@ port = <%= scope['port'].join(',') %>
 logpath = <%= scope['logpath'].join("\n\t") %>
 <% end -%>
 <% if scope['banaction'] -%>
-banaction  = <%= scope['banaction'] %>
+banaction = <%= scope['banaction'] %>
 <% end -%>
 <% if scope['banaction_allports'] -%>
-banaction_allports  = <%= scope['banaction_allports'] %>
+banaction_allports = <%= scope['banaction_allports'] %>
 <% end -%>
 <% if scope['action'] != []-%>
 action = <%= scope['action'].join("\n\t") %>
@@ -22,19 +22,19 @@ action = <%= scope['action'].join("\n\t") %>
 ignoreip = <%= scope['ignoreip'].join(',') %>
 <% end -%>
 <% if scope['ignorecommand'] -%>
-ignorecommand  = <%= scope['ignorecommand'] %>
+ignorecommand = <%= scope['ignorecommand'] %>
 <% end -%>
 <% if scope['bantime'] -%>
-bantime  = <%= scope['bantime'] %>
+bantime = <%= scope['bantime'] %>
 <% end -%>
 <% if scope['findtime'] -%>
-findtime  = <%= scope['findtime'] %>
+findtime = <%= scope['findtime'] %>
 <% end -%>
 <% if scope['maxretry'] -%>
-maxretry  = <%= scope['maxretry'] %>
+maxretry = <%= scope['maxretry'] %>
 <% end -%>
 <% if scope['backend'] -%>
-backend  = <%= scope['backend'] %>
+backend = <%= scope['backend'] %>
 <% end -%>
 <% if scope['usedns'] -%>
 usedns = <%= scope['usedns'] %>

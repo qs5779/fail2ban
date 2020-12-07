@@ -2,38 +2,37 @@
 #
 define fail2ban::jail (
   Enum['present', 'absent', 'purged'] $ensure,
-  Optional[Boolean] $enabled                  = true,
-  Optional[String] $jailname                  = $title,
-  Optional[Array[String]] $port               = [],
-  Optional[Array[String]] $logpath            = [],
-  Optional[String] $banaction                 = undef,
-  Optional[String] $banaction_allports        = undef,
-  Optional[Array[String]] $action             = [],
-  Optional[Array[String]] $ignoreip           = [],
-  Optional[String] $ignorecommand             = undef,
-  Optional[Variant[String,Integer]] $bantime  = undef,
-  Optional[String] $findtime                  = undef,
-  Optional[Integer] $maxretry                 = undef,
-  Optional[String] $backend                   = undef,
+  Stdlib::Absolutepath                $jail_dir,
+  Optional[Boolean]                   $enabled = true,
+  Optional[String]                    $jailname = $title,
+  Optional[Array[String]]             $port = [],
+  Optional[Array[String]]             $logpath = [],
+  Optional[String]                    $banaction = undef,
+  Optional[String]                    $banaction_allports = undef,
+  Optional[Array[String]]             $action = [],
+  Optional[Array[String]]             $ignoreip = [],
+  Optional[String]                    $ignorecommand = undef,
+  Optional[Variant[String,Integer]]   $bantime = undef,
+  Optional[String]                    $findtime = undef,
+  Optional[Integer]                   $maxretry = undef,
+  Optional[String]                    $backend = undef,
   Optional[Enum['yes', 'no', 'warn']] $usedns = undef,
-  Optional[String] $filter                    = undef,
-  Optional[Array[String]] $protocol           = [],
-  Optional[Integer] $order                    = undef,
+  Optional[String]                    $filter = undef,
+  Optional[Array[String]]             $protocol = [],
+  Optional[Integer]                   $order = undef,
 ) {
 
   if $order { # we intentionally will not use 0 for order, as we use 00 for our overrides
-    $jail_path_name = sprintf('%s/%02d-%s.conf', $fail2ban::jail_directory, $order, $jailname)
+    $jail_path_name = sprintf('%s/%02d-%s.conf', $jail_dir, $order, $jailname)
   }
   else {
-    $jail_path_name = sprintf('%s/%s.conf', $::fail2ban::jail_directory, $jailname)
+    $jail_path_name = sprintf('%s/%s.conf', $jail_dir, $jailname)
   }
 
   if $ensure == 'present' {
     file { $jail_path_name:
       ensure  => 'file',
       content => template('fail2ban/jail.erb'),
-      require => File[$::fail2ban::jail_directory],
-      notify  => $::fail2ban::service_notify,
     }
   }
   else {

@@ -39,7 +39,8 @@ matrix:
       stage: deploy
 branches:
   only:
-    - master
+    - main
+    - litmus
     - /^v\d/
 notifications:
-  email: false
+  email: true

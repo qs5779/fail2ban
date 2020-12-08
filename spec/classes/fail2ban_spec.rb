@@ -21,7 +21,9 @@ describe 'fail2ban' do
       case os_facts[:osfamily]
       when 'RedHat'
         it { is_expected.to contain_package('fail2ban-systemd') }
-        it { is_expected.to contain_package('epel-release') }
+        if os_facts[:operatingsystem] != 'OracleLinux'
+          it { is_expected.to contain_package('epel-release') }
+        end
       end
     end
   end

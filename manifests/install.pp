@@ -7,9 +7,19 @@ class fail2ban::install (
   Optional[Array[String]] $extra_packages,
 ) {
 
+
   $_fail2ban_packages = $extra_packages ? {
     undef   => $fail2ban_packages,
     default => $fail2ban_packages + $extra_packages
+  }
+
+  $yumrepos = lookup('fail2ban::yumrepos', Hash, deep, {})
+  unless empty($yumrepos) {
+    $before_packages = $repo_packages ? {
+      undef   => $_fail2ban_packages,
+      default => $repo_packages
+    }
+    ensure_resources('yumrepo', $yumrepos, {'ensure' => 'present', before =>  Package[$before_packages] })
   }
 
   if ($ensure != 'absent') and ($repo_packages){

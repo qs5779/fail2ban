@@ -1,0 +1,14 @@
+---
+
+fail2ban::ensure: present
+fail2ban::fail2ban_packages:
+  - fail2ban
+fail2ban::config_dir_path: /etc/fail2ban
+fail2ban::config_file_owner: root
+fail2ban::config_file_group: wheel
+fail2ban::config_file_mode: '0640'
+fail2ban::service_name: fail2ban
+
+fail2ban::jails:
+  sshd:
+    ensure: present

@@ -4,7 +4,7 @@ require:
 - rubocop-i18n
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: '2.1'
+  TargetRubyVersion: '2.4'
   Include:
   - "./**/*.rb"
   Exclude:
@@ -18,6 +18,16 @@ AllCops:
   - "**/Puppetfile"
   - "**/Vagrantfile"
   - "**/Guardfile"
+  - pre-commit
+Style/CommandLiteral:
+  Description: use %()
+  EnforcedStyle: percent_x
+Style/RegexpLiteral:
+  Description: use %r{}
+  EnforcedStyle: percent_r
+Style/WordArray:
+  Description: use %w[]
+  EnforcedStyle: percent_w
 Metrics/LineLength:
   Description: People have wide screens, use them.
   Max: 200
@@ -40,6 +50,10 @@ Style/BlockDelimiters:
   Description: Prefer braces for chaining. Mostly an aesthetical choice. Better to
     be consistent then.
   EnforcedStyle: braces_for_chaining
+Style/BracesAroundHashParameters:
+  Description: Braces are required by Ruby 2.7. Cop removed from RuboCop v0.80.0.
+    See https://github.com/rubocop-hq/rubocop/pull/7643
+  Enabled: true
 Style/ClassAndModuleChildren:
   Description: Compact style reduces the required amount of indentation.
   EnforcedStyle: compact
@@ -59,9 +73,6 @@ Style/Lambda:
 Style/RegexpLiteral:
   Description: Community preference. See https://github.com/voxpupuli/modulesync_config/issues/168
   EnforcedStyle: percent_r
-Style/CommandLiteral:
-  Description: Community preference. See https://github.com/voxpupuli/modulesync_config/issues/168
-  EnforcedStyle: percent_x
 Style/TernaryParentheses:
   Description: Checks for use of parentheses around ternary conditions. Enforce parentheses
     on complex expressions for better readability, but seriously consider breaking

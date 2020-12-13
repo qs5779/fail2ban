@@ -1,0 +1,11 @@
+---
+
+fail2ban::repo_packages: []
+
+fail2ban::yumrepos:
+  ol7_developer_EPEL:
+    baseurl: http://yum.oracle.com/repo/OracleLinux/OL7/developer_EPEL/$basearch/
+    enabled: 1
+    gpgcheck: 1
+    descr: 'Oracle Linux $releasever Developement Packages ($basearch)'
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
